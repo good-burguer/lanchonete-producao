@@ -41,7 +41,7 @@ class ClienteController:
         try:
             result = ClienteUseCase(self.db_session).listar_clientes()
 
-            return ClienteResponseList(status = 'succes', data = result)
+            return ClienteResponseList(status = 'success', data = result)
         except Exception as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
@@ -49,7 +49,7 @@ class ClienteController:
         try:
             result = ClienteUseCase(self.db_session).atualizar_cliente(id=id, clienteRequest=cliente_data)
 
-            return ClienteResponse(status = 'succes', data = result)
+            return ClienteResponse(status = 'success', data = result)
         except ValueError as e:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
         except Exception as e:
