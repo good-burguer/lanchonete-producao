@@ -65,7 +65,7 @@ jobs:
 
       # --- SonarCloud scan na main ---
       # Requires:
-      # - Secret: SONAR_TOKEN_GB3
+      # - Secret: SONAR_TOKEN_GB4
       # - Vars: SONAR_ORGANIZATION, SONAR_PROJECT_KEY
       - name: SonarCloud Scan
         if: always()
