@@ -71,7 +71,7 @@ jobs:
         if: always()
         uses: sonarsource/sonarcloud-github-action@v3
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_GB3 }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_GB4 }}
         with:
           projectBaseDir: .
 
