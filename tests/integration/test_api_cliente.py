@@ -15,13 +15,13 @@ class MockClienteGateway:
     def buscar_por_cpf(self, cpf_cliente: str):
         return self.obj if cpf_cliente == self.obj.cpf else None
 
-    def buscar_por_cliente_id(self, cliente_id: int):
-        return self.obj if cliente_id == self.obj.cliente_id else None
+    def buscar_por_id(self, id: int):
+        return self.obj if id == self.obj.cliente_id else None
 
     def listar_todos(self):
         return [self.obj]
 
-    def atualizar_cliente(self, cliente_id: int, cliente):
+    def atualizar_cliente(self, id: int, cliente):
         # Accept pydantic models or dicts
         data = None
         if hasattr(cliente, "model_dump"):
@@ -33,18 +33,18 @@ class MockClienteGateway:
         else:
             data = {}
 
-        return SimpleNamespace(cliente_id=cliente_id, nome=data.get("nome", self.obj.nome), email=data.get("email", self.obj.email), telefone=data.get("telefone", self.obj.telefone), cpf=data.get("cpf", self.obj.cpf))
+        return SimpleNamespace(cliente_id=id, nome=data.get("nome", self.obj.nome), email=data.get("email", self.obj.email), telefone=data.get("telefone", self.obj.telefone), cpf=data.get("cpf", self.obj.cpf))
 
-    def deletar_cliente(self, cliente_id: int):
+    def deletar_cliente(self, id: int):
         return None
 
 
 def setup_module(module):
-    app.dependency_overrcliente_ides[get_cliente_gateway] = lambda: MockClienteGateway()
+    app.dependency_overrides[get_cliente_gateway] = lambda: MockClienteGateway()
 
 
 def teardown_module(module):
-    app.dependency_overrcliente_ides.clear()
+    app.dependency_overrides.clear()
 
 
 client = TestClient(app)
