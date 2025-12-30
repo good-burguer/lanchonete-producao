@@ -5,7 +5,7 @@ from typing import Optional
 from app.adapters.schemas.categoria_produto import CategoriaProdutoResponseSchema
 
 class ProdutoResponseSchema(BaseModel):
-    id: int
+    produto_id: int
     nome: str
     descricao: Optional[str] = None
     preco: Decimal

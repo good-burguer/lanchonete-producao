@@ -45,7 +45,7 @@ class ProdutoDAO:
     def buscar_por_id(self, id: int) -> Produto | None:
         
         return (self.db_session.query(Produto)
-                .filter(Produto.id == id)
+                .filter(Produto.produto_id == id)
                 .first())
 
     def atualizar_produto(self, id: int, produto_data: Produto) -> Produto:

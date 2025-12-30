@@ -56,7 +56,7 @@ class ClienteUseCase:
     def _create_response_schema(self, cliente) :
         
         return (ClienteResponseSchema(
-                id=cliente.id, 
+                cliente_id=cliente.cliente_id, 
                 nome=cliente.nome, 
                 email=cliente.email, 
                 telefone=cliente.telefone, 

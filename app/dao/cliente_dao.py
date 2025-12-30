@@ -38,7 +38,7 @@ class ClienteDAO:
         
         return (self.db_session
                 .query(ClienteModel)
-                .filter_by(id=id)
+                .filter_by(cliente_id=id)
                 .first())
 
     def listar_todos(self) -> Cliente | None : 

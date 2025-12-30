@@ -7,7 +7,7 @@ from app.models.categoria_produto import CategoriaProduto
 class Produto(Base):
     __tablename__ = "produto"
 
-    id = Column(Integer, primary_key=True, index=True)
+    produto_id = Column(Integer, primary_key=True, index=True)
     nome = Column(String(255), nullable=False)
     descricao = Column(String(255), nullable=False)
     preco = Column(DECIMAL(10, 2), nullable=False)

@@ -2,7 +2,7 @@ from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 class ClienteResponseSchema(BaseModel):
-    id: int
+    cliente_id: int
     nome: Optional[str]
     email: Optional[str]
     telefone: Optional[str]
