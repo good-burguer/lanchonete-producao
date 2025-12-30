@@ -22,7 +22,7 @@ def use_case(mock_entity):
 @pytest.fixture
 def mock_produto_model():
     produto = Mock()
-    produto.id = 5
+    produto.produto_id = 5
     produto.nome = "Hamburguer"
     produto.descricao = "Pão, carne e queijo"
     produto.preco = Decimal("1.00")
@@ -42,7 +42,7 @@ def mock_produtos_list():
     
     # Produto 1 - Lanche
     produto1 = Mock()
-    produto1.id = 1
+    produto1.produto_id = 1
     produto1.nome = "X-Burger"
     produto1.descricao = "Hambúrguer com queijo"
     produto1.preco = Decimal("25.90")
@@ -54,7 +54,7 @@ def mock_produtos_list():
     
     # Produto 2 - Bebida
     produto2 = Mock()
-    produto2.id = 2
+    produto2.produto_id = 2
     produto2.nome = "Refrigerante"
     produto2.descricao = "Coca-Cola 350ml"
     produto2.preco = Decimal("5.00")
@@ -91,7 +91,7 @@ class TestCriarProduto:
         # Assert
         mock_entity.criar_produto.assert_called_once_with(sample_produto_create_dto)
         assert isinstance(result, ProdutoResponseSchema)
-        assert result.id == 5
+        assert result.produto_id == 5
         assert result.nome == "Hamburguer"
         assert result.preco == Decimal("1.00")
         assert result.categoria.id == 1
@@ -107,7 +107,7 @@ class TestCriarProduto:
         result = use_case.criar_produto(sample_produto_create_dto)
         
         # Assert
-        assert hasattr(result, 'id')
+        assert hasattr(result, 'produto_id')
         assert hasattr(result, 'nome')
         assert hasattr(result, 'descricao')
         assert hasattr(result, 'preco')
@@ -168,7 +168,7 @@ class TestListarPorCategoria:
 
         # Arrange
         produto_lanche = Mock()
-        produto_lanche.id = 1
+        produto_lanche.produto_id = 1
         produto_lanche.nome = "X-Burger"
         produto_lanche.descricao = "Hambúrguer com queijo"
         produto_lanche.preco = Decimal("25.90")
@@ -208,7 +208,7 @@ class TestListarPorCategoria:
         produtos_bebida = []
         for i in range(1, 4):
             produto = Mock()
-            produto.id = i
+            produto.produto_id = i
             produto.nome = f"Bebida {i}"
             produto.descricao = f"Descrição {i}"
             produto.preco = Decimal(f"{i}.00")
@@ -241,7 +241,7 @@ class TestBuscarPorId:
         # Assert
         mock_entity.buscar_por_id.assert_called_once_with(5)
         assert isinstance(result, ProdutoResponseSchema)
-        assert result.id == 5
+        assert result.produto_id == 5
         assert result.nome == "Hamburguer"
     
     def test_buscar_por_id_nao_encontrado(self, use_case, mock_entity):
@@ -264,7 +264,7 @@ class TestBuscarPorId:
         result = use_case.buscar_por_id(5)
         
         # Assert
-        assert result.id == 5
+        assert result.produto_id == 5
         assert result.categoria.id == 1
         assert result.categoria.nome == "Lanche"
 
@@ -291,7 +291,7 @@ class TestAtualizarProduto:
         # Assert
         mock_entity.atualizar_produto.assert_called_once_with(5, update_data)
         assert isinstance(result, ProdutoResponseSchema)
-        assert result.id == 5
+        assert result.produto_id == 5
         assert result.nome == "Hamburguer Premium"
         assert result.preco == Decimal("15.00")
     
@@ -359,7 +359,7 @@ class TestCreateResponseSchema:
         
         # Assert
         assert isinstance(result, ProdutoResponseSchema)
-        assert result.id == mock_produto_model.id
+        assert result.produto_id == mock_produto_model.produto_id
         assert result.nome == mock_produto_model.nome
         assert result.descricao == mock_produto_model.descricao
         assert result.preco == mock_produto_model.preco
@@ -373,7 +373,7 @@ class TestCreateResponseSchema:
         result = use_case._create_response_schema(mock_produto_model)
         
         # Assert
-        assert isinstance(result.id, int)
+        assert isinstance(result.produto_id, int)
         assert isinstance(result.nome, str)
         assert isinstance(result.preco, Decimal)
         assert isinstance(result.categoria.id, int)
@@ -395,7 +395,7 @@ class TestProdutoUseCaseIntegration:
 
         # Arrange - Create
         produto_novo = Mock()
-        produto_novo.id = 1
+        produto_novo.produto_id = 1
         produto_novo.nome = "Produto Teste"
         produto_novo.descricao = "Descrição teste"
         produto_novo.preco = Decimal("10.00")
@@ -414,7 +414,7 @@ class TestProdutoUseCaseIntegration:
         
         # Read
         result_read = use_case.buscar_por_id(1)
-        assert result_read.id == 1
+        assert result_read.produto_id == 1
         
         # List
         result_list = use_case.listar_todos()

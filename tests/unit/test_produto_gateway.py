@@ -29,7 +29,7 @@ def gateway(mock_db, monkeypatch):
 
 
 def test_criar_produto(gateway):
-    produto = Produto(id=1, nome="Teste", preco=10.00)
+    produto = Produto(produto_id=1, nome="Teste", preco=10.00)
 
     gateway.dao.criar_produto.return_value = produto
 
@@ -41,8 +41,8 @@ def test_criar_produto(gateway):
 
 def test_listar_todos(gateway):
     produtos = [
-        Produto(id=1, nome="A", preco=10.00),
-        Produto(id=2, nome="B", preco=20.00),
+        Produto(produto_id=1, nome="A", preco=10.00),
+        Produto(produto_id=2, nome="B", preco=20.00),
     ]
 
     gateway.dao.listar_todos.return_value = produtos
@@ -56,7 +56,7 @@ def test_listar_todos(gateway):
 
 def test_listar_por_categoria(gateway):
     categoria = CategoriaProdutoEnum.Lanche
-    produtos = [Produto(id=1, nome="X", preco=12)]
+    produtos = [Produto(produto_id=1, nome="X", preco=12)]
 
     gateway.dao.listar_por_categoria.return_value = produtos
 
@@ -67,7 +67,7 @@ def test_listar_por_categoria(gateway):
 
 
 def test_buscar_por_id(gateway):
-    produto = Produto(id=1, nome="Teste", preco=15)
+    produto = Produto(produto_id=1, nome="Teste", preco=15)
 
     gateway.dao.buscar_por_id.return_value = produto
 
@@ -78,7 +78,7 @@ def test_buscar_por_id(gateway):
 
 
 def test_atualizar_produto(gateway):
-    produto_atualizado = Produto(id=1, nome="Novo", preco=30)
+    produto_atualizado = Produto(produto_id=1, nome="Novo", preco=30)
 
     gateway.dao.atualizar_produto.return_value = produto_atualizado
 

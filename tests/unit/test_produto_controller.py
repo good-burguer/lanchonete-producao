@@ -24,7 +24,7 @@ def controller(mock_gateway):
 def sample_categoria_schema():
     
     return CategoriaProdutoResponseSchema(
-        id=1,
+        produto_id=1,
         nome="Lanche"
     )
 
@@ -33,7 +33,7 @@ def sample_categoria_schema():
 def sample_produto_response_schema(sample_categoria_schema):
     
     return ProdutoResponseSchema(
-        id=5,
+        produto_id=5,
         nome="Hamburguer",
         descricao="Pão, carne e queijo",
         preco=Decimal("1.00"),
@@ -69,7 +69,7 @@ class TestCriarProduto:
         mock_use_case.assert_called_once_with(mock_gateway)
         mock_use_case_instance.criar_produto.assert_called_once_with(sample_produto_create_dto)
         assert result.status == 'sucess'
-        assert result.data.id == 5
+        assert result.data.produto_id == 5
         assert result.data.nome == 'Hamburguer'
         assert result.data.categoria.id == 1
         assert result.data.categoria.nome == 'Lanche'
@@ -97,18 +97,18 @@ class TestListarTodos:
         # Arrange
         produtos_mock = [
             ProdutoResponseSchema(
-                id=1,
+                produto_id=1,
                 nome="X-Burger",
                 descricao="Hambúrguer com queijo",
                 preco=Decimal("25.90"),
-                categoria=CategoriaProdutoResponseSchema(id=1, nome="Lanche")
+                categoria=CategoriaProdutoResponseSchema(produto_id=1, nome="Lanche")
             ),
             ProdutoResponseSchema(
-                id=2,
+                produto_id=2,
                 nome="Refrigerante",
                 descricao="Coca-Cola 350ml",
                 preco=Decimal("5.00"),
-                categoria=CategoriaProdutoResponseSchema(id=2, nome="Bebida")
+                categoria=CategoriaProdutoResponseSchema(produto_id=2, nome="Bebida")
             )
         ]
         mock_use_case_instance = mock_use_case.return_value
@@ -161,11 +161,11 @@ class TestListarProdutosPorCategoria:
         # Arrange
         lanches = [
             ProdutoResponseSchema(
-                id=1,
+                produto_id=1,
                 nome="X-Burger",
                 descricao="Hambúrguer com queijo",
                 preco=Decimal("25.90"),
-                categoria=CategoriaProdutoResponseSchema(id=1, nome="Lanche")
+                categoria=CategoriaProdutoResponseSchema(produto_id=1, nome="Lanche")
             )
         ]
         mock_use_case_instance = mock_use_case.return_value
@@ -212,7 +212,7 @@ class TestBuscarProduto:
         mock_use_case.assert_called_once_with(mock_gateway)
         mock_use_case_instance.buscar_por_id.assert_called_once_with(5)
         assert result.status == 'sucess'
-        assert result.data.id == 5
+        assert result.data.produto_id == 5
     
     @patch('app.controllers.produto_controller.ProdutoUseCase')
     def test_buscar_produto_nao_encontrado(self, mock_use_case, controller):
@@ -249,11 +249,11 @@ class TestAtualizarProduto:
         # Arrange
         update_data = {"nome": "Hamburguer Premium", "preco": Decimal("15.00")}
         updated_schema = ProdutoResponseSchema(
-            id=5,
+            produto_id=5,
             nome="Hamburguer Premium",
             descricao="Pão, carne e queijo",
             preco=Decimal("15.00"),
-            categoria=CategoriaProdutoResponseSchema(id=1, nome="Lanche")
+            categoria=CategoriaProdutoResponseSchema(produto_id=1, nome="Lanche")
         )
         mock_use_case_instance = mock_use_case.return_value
         mock_use_case_instance.atualizar_produto.return_value = updated_schema

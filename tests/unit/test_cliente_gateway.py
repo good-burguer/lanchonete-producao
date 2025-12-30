@@ -27,7 +27,7 @@ def cliente_model():
         telefone="11999999999",
         cpf="12345678901"
     )
-    cliente.id = 1
+    cliente.cliente_id = 1
     return cliente
 
 

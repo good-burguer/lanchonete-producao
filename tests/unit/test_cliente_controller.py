@@ -44,7 +44,7 @@ def sample_cliente_update():
 def sample_cliente_data():
     
     return {
-        "id": 1,
+        "cliente_id": 1,
         "nome": "João Silva",
         "cpf": "12345678901",
         "email": "joao@example.com",
@@ -238,7 +238,7 @@ class TestAtualizarCliente:
         # Assert
         mock_use_case.assert_called_once_with(mock_db_session)
         mock_use_case_instance.atualizar_cliente.assert_called_once_with(
-            id=cliente_id, 
+            cliente_id=cliente_id, 
             clienteRequest=sample_cliente_update
         )
         assert result.status == 'success'
@@ -290,7 +290,7 @@ class TestDeletarCliente:
         
         # Assert
         mock_use_case.assert_called_once_with(mock_db_session)
-        mock_use_case_instance.deletar_cliente.assert_called_once_with(id=cliente_id)
+        mock_use_case_instance.deletar_cliente.assert_called_once_with(cliente_id=cliente_id)
         assert result.status_code == status.HTTP_204_NO_CONTENT
     
     @patch('app.controllers.cliente_controller.ClienteUseCase')

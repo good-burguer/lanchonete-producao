@@ -25,7 +25,7 @@ def cliente_model():
         telefone="11999999999",
         cpf="12345678901"
     )
-    cliente.id = 1
+    cliente.cliente_id = 1
     
     return cliente
 
@@ -46,7 +46,7 @@ def test_criar_cliente(use_case, mock_entity, cliente_model):
     result = use_case.criar_cliente(dto)
 
     assert isinstance(result, ClienteResponseSchema)
-    assert result.id == cliente_model.id
+    assert result.cliente_id == cliente_model.cliente_id
     mock_entity.criar_cliente.assert_called_once_with(cliente=dto)
 
 
@@ -58,7 +58,7 @@ def test_buscar_cliente_por_cpf_sucesso(use_case, mock_entity, cliente_model):
 
     result = use_case.buscar_cliente_por_cpf("12345678901")
 
-    assert result.id == cliente_model.id
+    assert result.cliente_id == cliente_model.cliente_id
     mock_entity.buscar_por_cpf.assert_called_once_with(cpf_cliente="12345678901")
 
 
@@ -77,8 +77,8 @@ def test_buscar_cliente_por_id_sucesso(use_case, mock_entity, cliente_model):
 
     result = use_case.buscar_cliente_por_id(1)
 
-    assert result.id == cliente_model.id
-    mock_entity.buscar_por_id.assert_called_once_with(id=1)
+    assert result.cliente_id == cliente_model.cliente_id
+    mock_entity.buscar_por_id.assert_called_once_with(cliente_id=1)
 
 
 def test_buscar_cliente_por_id_nao_encontrado(use_case, mock_entity):
@@ -115,7 +115,7 @@ def test_atualizar_cliente_sucesso(use_case, mock_entity, cliente_model):
         telefone="11888888888",
         cpf="12345678901",
     )
-    updated.id = 1
+    updated.cliente_id = 1
 
     mock_entity.atualizar_cliente.return_value = updated
 
@@ -124,8 +124,8 @@ def test_atualizar_cliente_sucesso(use_case, mock_entity, cliente_model):
     result = use_case.atualizar_cliente(1, dto)
 
     assert result.nome == "João Atualizado"
-    mock_entity.buscar_por_id.assert_called_once_with(id=1)
-    mock_entity.atualizar_cliente.assert_called_once_with(id=1, cliente=dto)
+    mock_entity.buscar_por_id.assert_called_once_with(cliente_id=1)
+    mock_entity.atualizar_cliente.assert_called_once_with(cliente_id=1, cliente=dto)
 
 
 def test_atualizar_cliente_nao_encontrado(use_case, mock_entity):
@@ -141,4 +141,4 @@ def test_atualizar_cliente_nao_encontrado(use_case, mock_entity):
 def test_deletar_cliente(use_case, mock_entity):
     use_case.deletar_cliente(1)
 
-    mock_entity.deletar_cliente.assert_called_once_with(id=1)
+    mock_entity.deletar_cliente.assert_called_once_with(cliente_id=1)
