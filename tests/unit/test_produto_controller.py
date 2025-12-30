@@ -24,7 +24,7 @@ def controller(mock_gateway):
 def sample_categoria_schema():
     
     return CategoriaProdutoResponseSchema(
-        produto_id=1,
+        id=1,
         nome="Lanche"
     )
 
