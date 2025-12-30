@@ -7,7 +7,7 @@ from decimal import Decimal
 
 class MockProdutoGateway:
     def __init__(self):
-        categoria = SimpleNamespace(produto_id=1, nome="Lanches")
+        categoria = SimpleNamespace(id=1, nome="Lanches")
         self.obj = SimpleNamespace(produto_id=1, nome="X-Burger", descricao="Delicioso", preco=Decimal("12.50"), categoria_rel=categoria)
 
     def criar_produto(self, produto):
@@ -17,12 +17,12 @@ class MockProdutoGateway:
         return [self.obj]
 
     def listar_por_categoria(self, categoria):
-        return [self.obj] if int(categoria) == self.obj.categoria_rel.produto_id else []
+        return [self.obj] if int(categoria) == self.obj.categoria_rel.id else []
 
-    def buscar_por_produto_id(self, produto_id: int):
-        return self.obj if produto_id == self.obj.produto_id else None
+    def buscar_por_id(self, id: int):
+        return self.obj if id == self.obj.produto_id else None
 
-    def atualizar_produto(self, produto_id: int, produto_data):
+    def atualizar_produto(self, id: int, produto_data):
         # Accept pydantic models or dicts
         data = None
         if hasattr(produto_data, "model_dump"):
@@ -40,18 +40,18 @@ class MockProdutoGateway:
         except Exception:
             preco_decimal = self.obj.preco
 
-        return SimpleNamespace(produto_id=produto_id, nome=data.get("nome", self.obj.nome), descricao=data.get("descricao", self.obj.descricao), preco=preco_decimal, categoria_rel=self.obj.categoria_rel)
+        return SimpleNamespace(produto_id=id, nome=data.get("nome", self.obj.nome), descricao=data.get("descricao", self.obj.descricao), preco=preco_decimal, categoria_rel=self.obj.categoria_rel)
 
-    def deletar_produto(self, produto_id: int):
+    def deletar_produto(self, id: int):
         return None
 
 
 def setup_module(module):
-    app.dependency_overrproduto_ides[get_produto_gateway] = lambda: MockProdutoGateway()
+    app.dependency_overrides[get_produto_gateway] = lambda: MockProdutoGateway()
 
 
 def teardown_module(module):
-    app.dependency_overrproduto_ides.clear()
+    app.dependency_overrides.clear()
 
 
 client = TestClient(app)
