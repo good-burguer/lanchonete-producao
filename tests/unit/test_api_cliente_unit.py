@@ -15,7 +15,8 @@ def test_criar_cliente_success(monkeypatch):
 
     monkeypatch.setattr(cliente_api, "ClienteController", FakeController)
 
-    schema = ClienteCreateSchema(nome="Fulano", email="f@x.com", telefone=None, cpf="123")
+    # CPF must be at least 11 chars per schema
+    schema = ClienteCreateSchema(nome="Fulano", email="f@x.com", telefone=None, cpf="12345678901")
     res = cliente_api.criar_cliente(schema, gateway=None)
 
     assert res["status"] == "success"
