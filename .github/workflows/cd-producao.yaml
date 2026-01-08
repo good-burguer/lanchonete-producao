@@ -28,6 +28,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Preflight - validate required repo variables
         if: ${{ vars.AWS_REGION == '' || vars.AWS_ROLE_TO_ASSUME == '' || vars.ECR_REPOSITORY == '' || vars.EKS_CLUSTER_NAME == '' || vars.K8S_NAMESPACE == '' }}
@@ -52,7 +54,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r .docker/bin/config/requirements.txt
-          pip install pytest pytest-cov
+          pip install pytest pytest-cov coverage
 
       - name: Run tests (se existir pasta tests/)
         if: ${{ hashFiles('tests/**') != '' }}
@@ -61,14 +63,25 @@ jobs:
           # Dummy DB for CI/CD to avoid requiring AWS Secrets Manager / RDS during test collection
           DATABASE_URL: "sqlite+pysqlite:///:memory:"
         run: |
-          python -m pytest tests --cov=app --cov-report=xml:coverage.xml
+          python -m pytest
+
+      - name: Verify coverage report
+        if: ${{ hashFiles('tests/**') != '' }}
+        run: |
+          if [ -f coverage.xml ]; then
+            echo "coverage.xml found:"
+            ls -lah coverage.xml
+          else
+            echo "coverage.xml NOT found"
+            ls -lah
+            exit 1
+          fi
 
       # --- SonarCloud scan na main ---
       # Requires:
       # - Secret: SONAR_TOKEN_GB4
       # - Vars: SONAR_ORGANIZATION, SONAR_PROJECT_KEY
       - name: SonarCloud Scan
-        if: always()
         uses: sonarsource/sonarcloud-github-action@v3
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_GB4 }}
