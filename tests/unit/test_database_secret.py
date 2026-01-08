@@ -50,10 +50,25 @@ def test_build_db_url_with_secret(monkeypatch):
         sys.modules["sqlalchemy.orm"] = fake_sqlalchemy_orm
 
         mod = importlib.import_module("app.infrastructure.db.database")
-    # call only the function we want to test
-    url = mod._build_db_url()
-    assert url.startswith("postgresql://")
-    assert "user" in url and "pass" in url and "mydb" in url
+
+        # call only the function we want to test
+        url = mod._build_db_url()
+        assert url.startswith("postgresql://")
+        assert "user" in url and "pass" in url and "mydb" in url
+    finally:
+        # restore originals
+        if orig_boto3 is not None:
+            sys.modules["boto3"] = orig_boto3
+        else:
+            sys.modules.pop("boto3", None)
+        if orig_sqlalchemy is not None:
+            sys.modules["sqlalchemy"] = orig_sqlalchemy
+        else:
+            sys.modules.pop("sqlalchemy", None)
+        if orig_sqlalchemy_orm is not None:
+            sys.modules["sqlalchemy.orm"] = orig_sqlalchemy_orm
+        else:
+            sys.modules.pop("sqlalchemy.orm", None)
 
 
 def test_build_db_url_secret_missing_fields(monkeypatch):
